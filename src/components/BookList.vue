@@ -2,27 +2,38 @@
   <div>
     <h1>{{title}}</h1>
     <input type="text" placeholder="Search Books" v-model="searchInput">
-    <ul>
+    <b-card>
+    <b-list-group>
       <book-item v-for='book in searchedBooks' :key='book.id' :book='book'></book-item>
-    </ul>
+    </b-list-group>
+    </b-card>
     <hr><h2>Filtered Books By Ownership</h2>
     <select v-model="holding">
-      <option v-for="filter in filters" :key="filter.id">
-        {{ filter }}
-      </option>
+      <option v-for="filter in filters" :key="filter.id">{{ filter }}</option>
     </select>
-    <ul>
-      <book-item v-for='book in filteredBooks' :key='book.id' :book='book'></book-item>
-    </ul>
+    <b-card>
+      <b-list-group>
+        <book-item v-for='book in filteredBooks' :key='book.id' :book='book'></book-item>
+      </b-list-group>
+    </b-card>
     <br><hr>
-    <book-form @addBook='appendBook'></book-form>
+    <b-card>
+      <book-form @addBook='appendBook'></book-form>
+    </b-card>
+    <br><hr>
+    <br><hr>
+    <b-card>
+      <BackendTest></BackendTest>
+    </b-card>
   </div>
 </template>
 
 <script>
 import _ from "lodash";
+import axios from 'axios';
 import BookItem from "./BookItem";
 import BookForm from "./BookForm";
+import BackendTest from "./BackendTest";
 
 export default {
   name: "BookList",
@@ -42,7 +53,8 @@ export default {
   },
   components: {
     BookItem,
-    BookForm
+    BookForm,
+    BackendTest
   },
   computed: {
     filteredBooks() {

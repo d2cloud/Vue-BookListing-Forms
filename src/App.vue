@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <book-list></book-list>
+    <b-container fluid class="bv-example-row">
+      <b-img-lazy fluid :src="require('./assets/logo.png')"></b-img-lazy>
+      <book-list></book-list>
+    </b-container>
   </div>
 </template>
 

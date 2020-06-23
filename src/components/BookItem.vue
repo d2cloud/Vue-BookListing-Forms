@@ -1,9 +1,9 @@
 <template>
-  <li>
+  <b-list-group-item>
     {{book.title}} : {{book.author}}
     <span v-if="book.finishedReading">Read</span>
     <span v-else>Not Read</span>
-  </li>
+  </b-list-group-item>
 </template>
 
 <script>
