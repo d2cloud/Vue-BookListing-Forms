@@ -4,7 +4,7 @@
     <input type="text" placeholder="Search Books" v-model="searchInput">
     <b-card>
     <b-list-group>
-      <book-item v-for='book in searchedBooks' :key='book.id' :book='book'></book-item>
+      <BookItem v-for='book in searchedBooks' :key='book.id' :book='book'></BookItem>
     </b-list-group>
     </b-card>
     <hr><h2>Filtered Books By Ownership</h2>
@@ -13,12 +13,12 @@
     </select>
     <b-card>
       <b-list-group>
-        <book-item v-for='book in filteredBooks' :key='book.id' :book='book'></book-item>
+        <BookItem v-for='book in filteredBooks' :key='book.id' :book='book'></BookItem>
       </b-list-group>
     </b-card>
     <br><hr>
     <b-card>
-      <book-form @addBook='appendBook'></book-form>
+      <BookForm @addBook='addBookToBackend'></BookForm>
     </b-card>
     <br><hr>
     <br><hr>
@@ -44,11 +44,13 @@ export default {
       filters: ["bought", "borrowed"],
       holding: "bought",
       searchInput: "",
-      books: [
+      books: this.getBooksFromBackend()
+      /*books: [
         { title: "Self-Reliance", author: "Ralph Waldo Emerson", finishedReading: true, ownership: "borrowed"},
         { title: "American Gods", author: "Neil Gaiman", finishedReading: false, ownership: "bought"},
         { title: "Amusing Ourselves to Death", author: "Neil Postman", finishedReading: true, ownership: "borrowed"}
       ]
+      */
     };
   },
   components: {
@@ -70,7 +72,33 @@ export default {
   methods: {
     appendBook(bookData) {
       this.books.push({ title: bookData.bookTitle, author: bookData.bookAuthor, finishedReading: bookData.finishedReading, ownership: bookData.ownership });
-    }
+    },
+    getBooksFromBackend () {
+    const path = `http://localhost:5000/api/books`
+    axios.get(path)
+    .then(response => {
+      this.books = response.data.books
+    })
+    .catch(error => {
+      console.log(error)
+    })
+    },
+    addBookToBackend(bookData) {
+      const path = `http://localhost:5000/api/books`;
+      const params = {
+        title: bookData.bookTitle,
+        author: bookData.bookAuthor,
+        finishedReading: bookData.finishedReading,
+        ownership: bookData.ownership
+        };
+      axios.post(path, params)
+      .then(response => {
+        console.log('added');
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    },
   }
 };
 </script>

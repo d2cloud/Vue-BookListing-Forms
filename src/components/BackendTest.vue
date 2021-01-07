@@ -11,7 +11,7 @@ export default {
   //props: ["randomNumber"],
   data() {
     return {
-      randomNumber: 0
+      randomNumber: this.getRandom()
     };
   },
   methods: {
@@ -34,9 +34,6 @@ export default {
       //this.randomNumber = this.getRandomInt(1, 100);
       this.randomNumber = this.getRandomFromBackend();
     }
-  },
-  created () {
-    this.getRandom()
   }
 }
 </script>
